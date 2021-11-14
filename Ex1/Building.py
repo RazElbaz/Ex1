@@ -1,47 +1,46 @@
-from Elevators import Elevator
 import json
+from Elevators import Elevator
+
 
 class Building:
 
-    def __init__(self) -> None:
-
-        self._minFloor=0
-        self._maxFloor=0
-        self.elevators = {}
-
-    def add(self, elev: Elevator):
-            self.elevators[elev._id] = elev
-
-        
 
 
+ def __init__(self) -> None:
 
-    def load_json(self, file_name):
+            self._minFloor=0
+            self._maxFloor=0
+            self.elevators = []
+            self.size=len(self.elevators)
 
-        try:
-            with open(file_name,"r+") as f:
-                new_elev={}
-                my_d=json.load(f)
-                self._minFloor=my_d["_minFloor"]
-                self._maxFloor = my_d["_maxFloor"]
-                pe_d=my_d["_elevators"]
-                for k,v in pe_d.items():
-                    elev=Elevator(**v)
-                    new_elev[elev.id]=elev
-                self.elevators=new_elev
-        except IOError as e:
+
+ def add(self, elev: Elevator):
+            self.elevators.append(elev)
+
+ def load_json(self, file_name):
+
+    try:
+        with open(file_name, "r+") as f:
+                build = json.load(f)
+                self._minFloor = build["_minFloor"]
+                self._maxFloor = build["_maxFloor"]
+                self.elevators = build["_elevators"]
+                self.size=len(self.elevators)
+    except IOError as e:
             print(e)
 
-    def __str__(self) -> str:
-        return "{self.elevators}\n_minFloor: {self._minFloor}\n _maxFloor: {self._maxFloor}"
+ def _str_(self) -> str:
+        return f"minFloor:{self._minFloor}\n maxFloor:{self._maxFloor}\n {self.elevators}"
 
-    def getElev(self):
-        return self.elevators
-    def getMaxFloor(self):
-        return self._maxFloor
-    def getMinFloor(self):
-        return self._minFloor
-    def size(self):
-        return len(self.elevators)
+ def getElev(self):
+     return self.elevators
+
+
+ def getMaxFloor(self):
+    return self._maxFloor
+
+
+ def getMinFloor(self):
+    return self._minFloor
 
 
