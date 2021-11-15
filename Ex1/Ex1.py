@@ -8,22 +8,14 @@ from Calls import Call
 def allocate(call):
     ans = 0
     numOfElev = b1.size
-    best = 10000
-    flag1 = 0
-    flag2 = 0
+    best = 100000000
+
     if numOfElev == 1:
         callsElevators[0].append(call)
         return 0
 
     if numOfElev > 1:
-        # if type(call) == 1 or type(call) == -1:
-        #     for i in range(0,numOfElev):
-        #         if pos(i) < call.srcFloor:
-        #             cnt = calculator(call, i)
-        #             best = min(cnt, best)
-        #             if cnt == best:
-        #                 flag1 = 1
-        #                 ans = i
+
         for i in range(0,numOfElev):
             FinalTime = checkTheTime(callsElevators[i], i, call)
             if best>FinalTime:
@@ -38,13 +30,6 @@ def allocate(call):
 
 
 
-# def calculator(call, i):
-#     elev = Building.Building.getElev()
-#     current = elev[i]
-#     speed = current["_speed"]
-#     OperationTime = current["_stopTime"] + current["_openTime"] + current["_closeTime"] + current["_startTime"]
-#     arrivalTime = abs(call.srcFloor - pos(i)) / speed + OperationTime
-#     return arrivalTime
 def calculator2calls(call,call_2,i):
     elev = b1.elevators
     current = elev[i]
@@ -56,18 +41,13 @@ def calculator2calls(call,call_2,i):
 
 
 def checkTheTime(calls, i,call):
-    elev = b1.elevators
-    current = elev[i]
-    speed = current["_speed"]
-    OperationTime = current["_stopTime"] + current["_openTime"]  + current["_startTime"]
-    ans=10000000
-    arrivalTime =0
+    best=100000000
     for j in range(0,len(calls)):
-        src=calculator2calls(call,calls[j],i)
-        dest=abs(int(call[2])-int(call[3]))/speed+OperationTime
-        arrivalTime = arrivalTime+src+dest
-        ans=min(ans,arrivalTime)
-    return ans
+        arrivalTime = calculator2calls(call,calls[j],i)
+        if best>arrivalTime:
+            best=arrivalTime
+    return best
+
 
 
 
@@ -95,7 +75,21 @@ def findPosition(call, finalElev,i):
     current = elev[i]
     speed = current["_speed"]
     OperationTime = current["_stopTime"] + current["_openTime"] + current["_closeTime"] + current["_startTime"]
-    best=10000
+    best=10000000
+    position=0
+    for j in range(0,len(finalElev)):
+        arrivalTime = abs(int(call[2]) - int(finalElev[j][2])) / speed + OperationTime
+        if  best>arrivalTime:
+            best=arrivalTime
+            position=j
+    return position
+
+def findPosition2(call, finalElev,i):
+    elev = b1.elevators
+    current = elev[i]
+    speed = current["_speed"]
+    OperationTime = current["_stopTime"] + current["_openTime"] + current["_closeTime"] + current["_startTime"]
+    best=10000000
     position=0
     for j in range(0,len(finalElev)):
         arrivalTime = abs(int(call[2]) - int(finalElev[j][2])) / speed + OperationTime
