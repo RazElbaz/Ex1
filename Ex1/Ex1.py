@@ -1,56 +1,63 @@
 import csv
+import sys
 from Building import Building
 from Calls import Call
+from Elevators import Elevator
 
 
-
-
-def allocate(call):
+def allocate(call): #return the int of the elevator that be answer on the call
     ans = 0
     numOfElev = b1.size
-    best = 100000000
+    best = 10000
+    flag1 = 0
+    flag2 = 0
+    if numOfElev == 1: #if there one elevator in the building
+        callsElevators[0].append(call) #add the call to the only elevator in the building
+        return 0 #return the index of the elevator
+    if numOfElev > 1:#if there is more than one elevator
+        if type(call) == 1 or type(call) == -1:#if the type of the call is UP or DOWN
+            for i in range(numOfElev):
+                if pos(i) < call.srcFloor: #if the elevator position is low then the src of the call
+                    cnt = calculator(call, i) #calculate the time of answer on the call of i elevator
+                    best = min(cnt, best) #check who is the fastest
+                    if cnt == best:
+                        flag1 = 1
+                        ans = i
+        for i in range(numOfElev):
+            FinalTime = checkTheTime(callsElevators[i], i, call) #calculate the time of answer on the call of every elevator list
+            best = min(FinalTime, best) #check who is the fastest
+            if FinalTime == best:
+                flag2 = 1;
+                ans = i
 
-    if numOfElev == 1:
-        callsElevators[0].append(call)
-        return 0
-
-    if numOfElev > 1:
-
-        for i in range(0,numOfElev):
-            FinalTime = checkTheTime(callsElevators[i], i, call)
-            if best>FinalTime:
-                best =FinalTime
-                ans=i
-        finalElev=callsElevators[ans]
-        position=findPosition(call, finalElev,ans)
-        callsElevators[ans].insert(position,call)
+    if flag1 == 1 and flag2 == 0:
+        callsElevators[ans].append(0, call) #adding the call to the elevator we found the best for answer the call
+        return ans #return the index of the elevator that need to answer the call
+    else:
+        callsElevators[ans].append(call) #adding the call to the elevator we found the best for answer the call
+    return ans #return the index of the elevator that need to answer the call
 
 
-    return ans
-
-
-
-def calculator2calls(call,call_2,i):
+def calculator(call, i): #function that calculate the time of  i elevator to go the src of the call c
     elev = b1.elevators
-    current = elev[i]
-    speed = current["_speed"]
-    OperationTime = current["_stopTime"] + current["_openTime"] + current["_closeTime"] + current["_startTime"]
-    arrivalTime = abs(int(call[2]) - int(call_2[2])) / speed + OperationTime
-    return arrivalTime
+    current = elev[i] #get elevator in index elev
+    speed = current['_speed']
+    OperationTime = current['_stopTime'] + current['_openTime'] + current['_startTime'] + current['_closeTime'] #amount of elevator start time
+    arrivalTime = (abs(int(call[2]) - int(pos(i))))/speed + OperationTime #calculate the time of  i elevator to go the src of the call c
+    return arrivalTime # the time of  i elevator to go the src of the call c
 
 
-
-def checkTheTime(calls, i,call):
-    best=100000000
-    for j in range(0,len(calls)):
-        arrivalTime = calculator2calls(call,calls[j],i)
-        if best>arrivalTime:
-            best=arrivalTime
-    return best
-
-
-
-
+def checkTheTime(calls, i, call):
+    elev = b1.elevators
+    current = elev[i] #get elevator in index elev
+    arrivalTime = 0 #variable that saving the time of the elevator to arrival
+    speed = current['_speed']
+    OperationTime = current['_stopTime'] + current['_openTime'] + current['_startTime'] #amount of elevator start time
+    for j in range(0, len(calls)):
+        src = calculator(call, i) #check src of call to the pos of the elevator time
+        dest = abs((int(call[2]) - int(call[3])))/speed  #check src-dst time
+        arrivalTime = arrivalTime + src + dest
+    return arrivalTime + OperationTime
 
 
 def typeCall(call):
@@ -65,68 +72,45 @@ def typeCall(call):
         return 0
 
 
-
 def pos(i):
-    ans=callsElevators[i][0].call.srcFloor
+    ans = callsElevators[i][0][2]
     return ans
 
-def findPosition(call, finalElev,i):
-    elev = b1.elevators
-    current = elev[i]
-    speed = current["_speed"]
-    OperationTime = current["_stopTime"] + current["_openTime"] + current["_closeTime"] + current["_startTime"]
-    best=10000000
-    position=0
-    for j in range(0,len(finalElev)):
-        arrivalTime = abs(int(call[2]) - int(finalElev[j][2])) / speed + OperationTime
-        if  best>arrivalTime:
-            best=arrivalTime
-            position=j
-    return position
 
-def findPosition2(call, finalElev,i):
-    elev = b1.elevators
-    current = elev[i]
-    speed = current["_speed"]
-    OperationTime = current["_stopTime"] + current["_openTime"] + current["_closeTime"] + current["_startTime"]
-    best=10000000
-    position=0
-    for j in range(0,len(finalElev)):
-        arrivalTime = abs(int(call[2]) - int(finalElev[j][2])) / speed + OperationTime
-        if  best>arrivalTime:
-            best=arrivalTime
-            position=j
-    return position
-
-if __name__ == '__main__':
-    file_name = str(input('Enter file name'))
+if __name__ == '_main_':
+    file_ = str(input('Enter Building name'))
+    file_name = str(input('Enter calls name'))
+    out_name = str(input('Enter out name'))
+    # file_=sys.argv[1]
+    # file_name = sys.argv[2]
+    # out_name = sys.argv[3]
     rows = []
     oly = []
     size = 0
     with open(file_name) as file:
         csvreader = csv.reader(file)
-
         for row in csvreader:
-            o = Call(str=row[0], time=float(row[1]), srcFloor=int(row[2]), destFloor=int(row[3]), status=int(row[4]), assign=int(row[5]))
+            o = Call(str=row[0], time=float(row[1]), srcFloor=int(row[2]), destFloor=int(row[3]), status=int(row[4]),
+                     assign=int(row[5]))
             oly.append(o)
             rows.append(row)
 
         print(rows)
-        file_ = str(input('Enter file name'))
         b1 = Building()
         b1.load_json(file_)
-        Building.add(b1,b1.elevators)
+        Building.add(b1, b1.elevators)
         calls = []
         callsElevators = []
-        numOfElev =b1.size
+        numOfElev = b1.size
         for i in range(0, numOfElev):
             callsElevators.append(calls)
 
-    for i in range(0,len(rows)):
-            c=rows[i]
-            ans = allocate(c)
-            rows[i] = Call(str=rows[i][0], time=float(rows[i][1]), srcFloor=int(rows[i][2]), destFloor=int(rows[i][3]), status=int(rows[i][4]),assign=int(ans))
-            print(rows[i])
-
-
+    for i in range(0, len(rows)):
+        c = rows[i]
+        ans = allocate(c)
+        rows[i] = Call(str=rows[i][0], time=float(rows[i][1]), srcFloor=int(rows[i][2]), destFloor=int(rows[i][3]),status=int(rows[i][4]), assign=int(ans))
+        #print(rows[i])
+        with open(out_name, 'w') as csv_file:
+            for i in rows:
+                csv_file.write(str(i) + '\n')
 
