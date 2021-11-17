@@ -1,4 +1,3 @@
-
 class Call:
 
     def __init__(self,str="",time:float=0,srcFloor:int=0,destFloor:int=0,status:int=0,assign:int=0) -> None:
@@ -11,9 +10,4 @@ class Call:
 
 
     def __str__(self) -> str:
-        return f"str: {self.str} time:{self.time} srcFloor: {self.srcFloor} destFloor: {self.destFloor} status: {self.status} srcFloor: {self.assign}"
-
-    # def __repr__(self) -> str:
-    #     return f"str: {self.str} time:{self.time} srcFloor: {self.srcFloor} destFloor: {self.destFloor} status: {self.status} srcFloor: {self.assign}"
-
-
+        return f"{self.str},{self.time},{self.srcFloor},{self.destFloor},{self.status},{self.assign}"
