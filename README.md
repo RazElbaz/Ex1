@@ -22,7 +22,7 @@ Second, the algorithm will define elevators for ascent and descent according to 
 Explanation of the Class:
 Elevator - a class that maintains an elevator has the following values: minimum and maximum floors, speeds, and more. Receives the information from the list of elevators received from the building
 Building - a class that defines a building, receives the data: minimum and maximum floor and a list of existing elevators from the building, receives the information from the JSON file
-Reads - a class that keeps read and receives the following values: time, target floor and source, and more. receives its information from a CSV file
+calls - a class that keeps read and receives the following values: time, target floor and source, and more. receives its information from a CSV file
 Ex1 - The algorithm we recorded, gets a JSON file of a building, a CSV file of calls and an output CSV file. The algorithm goes through each calls and creates a list for each elevator of its readings,
  Each call is embedded in the elevator that will perform the reading in the shortest time and then the algorithm records the output (the elevator that will perform the reading) to the output file.
 
