@@ -110,7 +110,6 @@ if __name__ == '__main__':
         c = rows[i]
         ans = allocate(c)
         rows[i] = Call(str=rows[i][0], time=float(rows[i][1]), srcFloor=int(rows[i][2]), destFloor=int(rows[i][3]),status=int(rows[i][4]), assign=int(ans))
-        print(rows[i])
         with open(out_name, 'w') as csv_file:
             for i in rows:
                 csv_file.write(str(i) + '\n')
