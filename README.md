@@ -19,7 +19,7 @@ The algorithm will pre-determine the number of elevators in the building, the in
 opening and closing time,start and stop time and elevator speed. At each input, the algorithm will receive the data: time, current floor and target floor. First, the algorithm will look at the inputs times received in advance, set a minimum time to respond to requests for the same destination floor and direction, and create a to-do list for each elevator. For example, if two inputs are known for a particular floor by a predetermined minimum difference, the algorithm will know to unite the two requests in the first place and assign them the same elevator without providing two different elevators and cause a reduction in efficiency.
 Second, the algorithm will define elevators for ascent and descent according to the execution list, as well as for late requests for elevators that are not in operation, the algorithm will know the router to the floor from which you will have to move. The algorithm will execute all requests with minimum time and maximum efficiency by taking into account all the information received in advance and thus, be able to plan the operation of each elevator without sudden changes or new requests.
 
-Explanation of the Class:
+Explanation of the Classes:
 
 *Elevator - a class that maintains an elevator has the following values: minimum and maximum floors, speeds, and more. Receives the information from the list of elevators received from the building.
 
