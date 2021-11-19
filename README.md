@@ -11,7 +11,7 @@ https://www.youtube.com/watch?v=MJhXqAbQ23I&t=2s
 
 Problem space:
 An offline algorithm is an optimal algorithm that stamps the user inputs further, pre-calculating the answers in it based on the input given.
-The algorithm will be able to execute the most efficient program and will plan the operation of the elevator without any expected changes. Therefore, this algorithm is more efficient in terms of getting passengers to the destination at the best speed without delays and will have long waiting times or duplications in elevator calls.
+The algorithm will be able to execute the most efficient program and will plan the operation of the elevator without any expected changes. Therefore, this algorithm is more efficient in terms of getting passengers to the destination at the best speed without delays like long waiting times or duplications in elevator calls.
 
 Offline algorithm design:
 The algorithm will assign the call to the elevator which will perform it in the shortest time.
