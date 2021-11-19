@@ -20,11 +20,14 @@ opening and closing time,start and stop time and elevator speed. At each input, 
 Second, the algorithm will define elevators for ascent and descent according to the execution list, as well as for late requests for elevators that are not in operation, the algorithm will know the router to the floor from which you will have to move. The algorithm will execute all requests with minimum time and maximum efficiency by taking into account all the information received in advance and thus, be able to plan the operation of each elevator without sudden changes or new requests.
 
 Explanation of the Class:
-Elevator - a class that maintains an elevator has the following values: minimum and maximum floors, speeds, and more. Receives the information from the list of elevators received from the building
-Building - a class that defines a building, receives the data: minimum and maximum floor and a list of existing elevators from the building, receives the information from the JSON file
-calls - a class that keeps read and receives the following values: time, target floor and source, and more. receives its information from a CSV file
-Ex1 - The algorithm we recorded, gets a JSON file of a building, a CSV file of calls and an output CSV file. The algorithm goes through each calls and creates a list for each elevator of its readings,
- Each call is embedded in the elevator that will perform the reading in the shortest time and then the algorithm records the output (the elevator that will perform the reading) to the output file.
+
+Elevator - a class that maintains an elevator has the following values: minimum and maximum floors, speeds, and more. Receives the information from the list of elevators received from the building.
+
+Building - a class that defines a building, receives the data: minimum and maximum floor and a list of existing elevators from the building, receives the information from the JSON file.
+
+calls - a class that keeps read and receives the following values: time, target floor and source, and more. receives its information from a CSV file.
+
+Ex1 - The algorithm we recorded, gets a JSON file of a building, a CSV file of calls and an output CSV file. The algorithm goes through each calls and creates a list for each elevator of its readings, each call is embedded in the elevator that will perform the reading in the shortest time and then the algorithm records the output (the elevator that will perform the reading) to the output file.
 
 Example of running to building 5 with calls D (if we want to run something else we will change the names):
 Go to the folder where all the documents are and we will write the following line in cmd :
